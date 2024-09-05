@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+
 import './App.css';
+import FetchApi from './fetchAPI'
+import React, {useState, useEffect} from 'react';
 
 function App() {
+  const [score, setScore] = useState(0);
+  const[bestScore, setBestScore] = useState(0)
+  useEffect(() => {
+    if (score > 7) {
+      setBestScore((prevBestScore) => prevBestScore + 1);
+      setScore(0);  // Reset score to 0
+    }
+  }, [score])
+  useEffect(()=>{
+    if(bestScore > 7){
+      alert("You won the game");
+      setScore(0)
+      setBestScore(0)
+    }
+  }, [bestScore])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="Container">
+      <div className="Header">
+        <h1>Amphibia Memory Game</h1>
+        <div>
+        <p> Score: <span>{score}</span> </p> 
+        <p> Best Score: <span>{bestScore}</span> </p> 
+        </div>
+      </div>
+      </div>
+      <FetchApi score={score} setScore={setScore}/>
     </div>
   );
 }
